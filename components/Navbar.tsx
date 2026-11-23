@@ -115,6 +115,7 @@ function ScenicThemeToggle({
 export default function Navbar() {
   const [isDark, setIsDark] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const [activeHash, setActiveHash] = useState("#hero");
 
   useEffect(() => {
@@ -134,8 +135,18 @@ export default function Navbar() {
       }
     };
 
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 12);
+      setMenuOpen(false);
+    };
+
+    handleScroll();
     window.addEventListener("hashchange", handleHashChange);
-    return () => window.removeEventListener("hashchange", handleHashChange);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener("hashchange", handleHashChange);
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   useEffect(() => {
@@ -167,22 +178,28 @@ export default function Navbar() {
   };
 
   return (
-    <header className="sticky top-0 z-50 border-b border-stone-200/80 bg-[#FAF8F5]/90 backdrop-blur-md transition-colors dark:border-slate-800/90 dark:bg-[#09131E]/90">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
+    <header
+      className={`sticky top-0 z-50 border-b backdrop-blur-md transition-all duration-300 ${
+        scrolled
+          ? "border-stone-300/90 bg-[#FAF8F5]/95 shadow-[0_6px_24px_rgba(15,23,42,0.08)] dark:border-slate-700/90 dark:bg-[#09131E]/95 dark:shadow-[0_8px_28px_rgba(0,0,0,0.45)]"
+          : "border-stone-200/80 bg-[#FAF8F5]/90 dark:border-slate-800/90 dark:bg-[#09131E]/90"
+      }`}
+    >
+      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-2 px-3.5 sm:px-6 lg:px-8">
         {/* Brand / Name with Circular FK Logo */}
         <a
           href="#hero"
           onClick={() => handleLinkClick("#hero")}
-          className="group inline-flex items-center gap-2.5 text-base font-bold tracking-tight text-[#0F2942] transition dark:text-[#F8FAFC] sm:text-lg"
+          className="group inline-flex min-w-0 items-center gap-2 text-sm font-bold tracking-tight text-[#0F2942] transition dark:text-[#F8FAFC] sm:gap-2.5 sm:text-lg"
         >
-          <span className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full border border-amber-400/50 bg-[#08111E] shadow-xs transition-transform duration-300 group-hover:scale-105">
+          <span className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full border border-amber-400/50 bg-[#08111E] shadow-xs transition-transform duration-300 group-hover:scale-105 sm:h-10 sm:w-10">
             <img
               src="/fk-badge.png"
               alt="FK Full Stack Developer Badge"
               className="h-full w-full object-cover"
             />
           </span>
-          <span>
+          <span className="truncate">
             Farhana Khatun
             <span className="text-[#2563EB] transition-colors dark:text-[#F59E0B]">
               .
@@ -191,7 +208,7 @@ export default function Navbar() {
         </a>
 
         {/* Desktop Nav Links + Scenic Theme & Mobile Toggle */}
-        <div className="flex items-center gap-3 sm:gap-5">
+        <div className="flex shrink-0 items-center gap-2.5 sm:gap-5">
           <nav className="hidden items-center gap-4 lg:flex xl:gap-5">
             {navLinks.map((item) => {
               const isActive = activeHash === item.href;
@@ -302,3 +319,4 @@ export default function Navbar() {
     </header>
   );
 }
+
