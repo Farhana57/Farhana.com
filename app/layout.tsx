@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import FloatingSocialRail from "@/components/FloatingSocialRail";
+import ScrollToTopButton from "@/components/ScrollToTopButton";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -55,12 +56,13 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} flex min-h-screen flex-col antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} flex min-h-screen flex-col overflow-x-hidden antialiased`}
       >
         <Navbar />
-        <div className="flex-1">{children}</div>
+        <div className="flex-1 pt-16">{children}</div>
         <WhatsAppFloat />
         <FloatingSocialRail />
+        <ScrollToTopButton />
       </body>
     </html>
   );

@@ -33,7 +33,6 @@ function ScenicThemeToggle({
           : "border-slate-300/90 shadow-[inset_0_1px_4px_rgba(15,23,42,0.16)]"
       }`}
     >
-      {/* Light Mode Scenic Sky & Silhouette Backdrop */}
       <span
         aria-hidden="true"
         className={`absolute inset-0 transition-opacity duration-500 ${
@@ -44,7 +43,6 @@ function ScenicThemeToggle({
             "linear-gradient(135deg, #dbeafe 0%, #93c5fd 48%, #64748b 100%)",
         }}
       >
-        {/* Subtle distant horizon / tree silhouette on right */}
         <svg
           viewBox="0 0 64 32"
           preserveAspectRatio="none"
@@ -65,7 +63,6 @@ function ScenicThemeToggle({
         </svg>
       </span>
 
-      {/* Dark Mode Starry Night Sky Backdrop */}
       <span
         aria-hidden="true"
         className={`absolute inset-0 transition-opacity duration-500 ${
@@ -93,7 +90,6 @@ function ScenicThemeToggle({
         </svg>
       </span>
 
-      {/* Sliding Circular Orb */}
       <span
         className={`relative z-10 flex h-6.5 w-6.5 items-center justify-center rounded-full transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
           isDark
@@ -101,7 +97,6 @@ function ScenicThemeToggle({
             : "translate-x-0 bg-gradient-to-br from-white via-slate-50 to-slate-200 shadow-[0_2px_6px_rgba(15,23,42,0.28)]"
         }`}
       >
-        {/* Subtle inner highlight */}
         <span
           className={`h-4 w-4 rounded-full transition-colors duration-500 ${
             isDark ? "bg-amber-200/40" : "bg-white/80"
@@ -137,7 +132,6 @@ export default function Navbar() {
 
     const handleScroll = () => {
       setScrolled(window.scrollY > 12);
-      setMenuOpen(false);
     };
 
     handleScroll();
@@ -179,14 +173,13 @@ export default function Navbar() {
 
   return (
     <header
-      className={`sticky top-0 z-50 border-b backdrop-blur-md transition-all duration-300 ${
+      className={`fixed inset-x-0 top-0 z-[999] border-b backdrop-blur-md transition-all duration-300 ${
         scrolled
-          ? "border-stone-300/90 bg-[#FAF8F5]/95 shadow-[0_6px_24px_rgba(15,23,42,0.08)] dark:border-slate-700/90 dark:bg-[#09131E]/95 dark:shadow-[0_8px_28px_rgba(0,0,0,0.45)]"
+          ? "border-stone-300/90 bg-[#FAF8F5]/95 shadow-[0_6px_24px_rgba(15,23,42,0.1)] dark:border-slate-700/90 dark:bg-[#09131E]/95 dark:shadow-[0_8px_28px_rgba(0,0,0,0.5)]"
           : "border-stone-200/80 bg-[#FAF8F5]/90 dark:border-slate-800/90 dark:bg-[#09131E]/90"
       }`}
     >
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-2 px-3.5 sm:px-6 lg:px-8">
-        {/* Brand / Name with Circular FK Logo */}
         <a
           href="#hero"
           onClick={() => handleLinkClick("#hero")}
@@ -207,7 +200,6 @@ export default function Navbar() {
           </span>
         </a>
 
-        {/* Desktop Nav Links + Scenic Theme & Mobile Toggle */}
         <div className="flex shrink-0 items-center gap-2.5 sm:gap-5">
           <nav className="hidden items-center gap-4 lg:flex xl:gap-5">
             {navLinks.map((item) => {
@@ -234,89 +226,57 @@ export default function Navbar() {
             })}
           </nav>
 
-          {/* Scenic Day / Night Theme Toggle */}
           <ScenicThemeToggle isDark={isDark} onToggle={toggleTheme} />
 
-          {/* Animated Mobile Menu Toggle Button */}
           <button
             type="button"
             onClick={() => setMenuOpen((prev) => !prev)}
             aria-expanded={menuOpen}
             aria-label="Toggle menu"
-            className="relative inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-stone-300/90 bg-white/70 text-[#2563EB] shadow-2xs transition-all duration-200 hover:border-[#2563EB] hover:text-[#1D4ED8] active:scale-95 dark:border-slate-700 dark:bg-[#0F2942]/80 dark:text-[#FBBF24] dark:hover:border-amber-400/70 lg:hidden"
+            className="relative z-10 inline-flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-xl border border-stone-300/90 bg-white/80 text-[#2563EB] shadow-2xs transition-all duration-200 hover:border-[#2563EB] hover:text-[#1D4ED8] active:scale-95 dark:border-slate-700 dark:bg-[#0F2942]/90 dark:text-[#FBBF24] dark:hover:border-amber-400/70 lg:hidden"
           >
-            <span
-              className={`absolute transition-all duration-300 ${
-                menuOpen
-                  ? "scale-0 rotate-90 opacity-0"
-                  : "scale-100 rotate-0 opacity-100"
-              }`}
-            >
-              <Menu className="h-4 w-4" />
-            </span>
-            <span
-              className={`absolute transition-all duration-300 ${
-                menuOpen
-                  ? "scale-100 rotate-0 opacity-100"
-                  : "scale-0 -rotate-90 opacity-0"
-              }`}
-            >
-              <X className="h-4 w-4" />
-            </span>
+            {menuOpen ? (
+              <X className="h-5 w-5" />
+            ) : (
+              <Menu className="h-5 w-5" />
+            )}
           </button>
         </div>
       </div>
 
-      {/* Smooth Animated Mobile Dropdown Drawer */}
-      <div
-        className={`grid overflow-hidden border-t transition-all duration-300 ease-out lg:hidden ${
-          menuOpen
-            ? "grid-rows-[1fr] border-stone-200/80 opacity-100 dark:border-slate-800/90"
-            : "grid-rows-[0fr] border-transparent opacity-0 pointer-events-none"
-        }`}
-      >
-        <div className="min-h-0 bg-[#FAF8F5]/95 backdrop-blur-md dark:bg-[#07101A]/95">
+      {menuOpen && (
+        <div className="border-t border-stone-200/90 bg-[#FAF8F5]/98 shadow-lg backdrop-blur-md dark:border-slate-800/90 dark:bg-[#07101A]/98 lg:hidden">
           <nav className="mx-auto flex max-w-6xl flex-col gap-1 px-4 py-3 sm:px-6">
-            {navLinks.map((item, idx) => {
+            {navLinks.map((item) => {
               const isActive = activeHash === item.href;
               return (
                 <a
                   key={item.href}
                   href={item.href}
                   onClick={() => handleLinkClick(item.href)}
-                  style={{
-                    transitionDelay: menuOpen ? `${idx * 35}ms` : "0ms",
-                  }}
-                  className={`group flex items-center justify-between rounded-xl px-3.5 py-2.5 text-sm font-medium transition-all duration-200 ${
-                    menuOpen
-                      ? "translate-x-0 opacity-100"
-                      : "-translate-x-2 opacity-0"
-                  } ${
+                  className={`flex items-center justify-between rounded-xl px-3.5 py-2.5 text-sm font-medium transition ${
                     isActive
                       ? "bg-blue-500/12 font-semibold text-[#1D4ED8] dark:bg-amber-500/15 dark:text-[#FBBF24]"
-                      : "text-[#2563EB] hover:translate-x-1 hover:bg-blue-500/10 hover:text-[#1E40AF] dark:text-slate-200 dark:hover:bg-amber-500/10 dark:hover:text-[#FBBF24]"
+                      : "text-[#2563EB] hover:bg-blue-500/10 hover:text-[#1E40AF] dark:text-slate-200 dark:hover:bg-amber-500/10 dark:hover:text-[#FBBF24]"
                   }`}
                 >
                   <span className="flex items-center gap-2.5">
                     <span
-                      className={`h-1.5 w-1.5 rounded-full transition-all duration-200 ${
+                      className={`h-1.5 w-1.5 rounded-full ${
                         isActive
-                          ? "scale-125 bg-[#2563EB] dark:bg-[#FBBF24]"
-                          : "bg-blue-400/70 group-hover:scale-125 group-hover:bg-[#2563EB] dark:bg-slate-600 dark:group-hover:bg-[#FBBF24]"
+                          ? "bg-[#2563EB] dark:bg-[#FBBF24]"
+                          : "bg-blue-400/70 dark:bg-slate-500"
                       }`}
                     />
                     {item.label}
                   </span>
-                  <span className="text-xs opacity-0 transition-all duration-200 group-hover:translate-x-0.5 group-hover:opacity-100">
-                    →
-                  </span>
+                  <span className="text-xs opacity-70">→</span>
                 </a>
               );
             })}
           </nav>
         </div>
-      </div>
+      )}
     </header>
   );
 }
-
