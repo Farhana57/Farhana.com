@@ -3,8 +3,11 @@
 import { useState } from "react";
 import BookPageSection from "./BookPageSection";
 
+type ProjectCategory = "All" | "Client & Full-Stack" | "Portfolios";
+
 interface ProjectCaseStudy {
   id: string;
+  category: Exclude<ProjectCategory, "All">;
   tag: string;
   title: string;
   shortDesc: string;
@@ -21,6 +24,7 @@ interface ProjectCaseStudy {
 const PROJECTS: ProjectCaseStudy[] = [
   {
     id: "zaman-traders",
+    category: "Client & Full-Stack",
     tag: "EXPORT & MERN SYSTEM",
     title: "Zaman Traders BD",
     shortDesc:
@@ -43,6 +47,7 @@ const PROJECTS: ProjectCaseStudy[] = [
   },
   {
     id: "uptotechsyl",
+    category: "Client & Full-Stack",
     tag: "IT AGENCY & NEXT.JS APP",
     title: "UptoTechSyl",
     shortDesc:
@@ -65,6 +70,7 @@ const PROJECTS: ProjectCaseStudy[] = [
   },
   {
     id: "dr-nurjahan-mukti",
+    category: "Client & Full-Stack",
     tag: "HEALTHCARE & PORTFOLIO",
     title: "Dr. Nurjahan Mukti",
     shortDesc:
@@ -85,6 +91,81 @@ const PROJECTS: ProjectCaseStudy[] = [
       "Smooth mobile experience for quick access on smartphones",
     ],
   },
+  {
+    id: "portfolio-nine",
+    category: "Portfolios",
+    tag: "PERSONAL PORTFOLIO • VERCEL",
+    title: "Farhana Portfolio (Next.js Edition)",
+    shortDesc:
+      "Modern personal developer portfolio showcasing projects, skills, and direct contact pathways.",
+    liveUrl: "https://farhana-portfolio-nine.vercel.app/",
+    image: "/portfolio-nine.png",
+    techStack: ["Next.js", "React", "Tailwind CSS", "Vercel"],
+    accentDotClass: "bg-sky-400",
+    overview:
+      "A dedicated personal portfolio build focused on clean visual presentation, project highlights, and responsive navigation across devices.",
+    challenge:
+      "Structuring portfolio sections and project previews so recruiters and clients can scan work quickly without clutter.",
+    solution:
+      "Designed a structured Next.js layout with responsive spacing, clear typography, and fast edge delivery on Vercel.",
+    highlights: [
+      "Responsive layout tailored for desktop and mobile viewing",
+      "Clean section hierarchy highlighting development work and contact links",
+      "Deployed on Vercel with fast loading performance",
+    ],
+  },
+  {
+    id: "portfolio-github",
+    category: "Portfolios",
+    tag: "PORTFOLIO • GITHUB PAGES",
+    title: "My Portfolio (Classic Edition)",
+    shortDesc:
+      "Foundational web portfolio built and published on GitHub Pages to present early work and profile.",
+    liveUrl: "https://farhana57.github.io/my-portfolio/",
+    image: "/portfolio-github.png",
+    techStack: ["HTML5", "CSS3", "JavaScript", "GitHub Pages"],
+    accentDotClass: "bg-teal-400",
+    overview:
+      "An earlier portfolio iteration created to showcase foundational frontend work, personal profile details, and project links online.",
+    challenge:
+      "Delivering a lightweight, reliable static portfolio site with straightforward deployment via GitHub Pages.",
+    solution:
+      "Built with clean HTML, CSS, and JavaScript and hosted directly on GitHub Pages for accessible sharing.",
+    highlights: [
+      "Lightweight frontend build hosted on GitHub Pages",
+      "Clear showcase of foundational web development milestones",
+      "Accessible direct link for profile and work review",
+    ],
+  },
+  {
+    id: "portfolio-farhanacom",
+    category: "Portfolios",
+    tag: "INTERACTIVE PORTFOLIO • SAAS UI",
+    title: "Farhana.com Portfolio",
+    shortDesc:
+      "Full showcase portfolio featuring interactive SaaS UI preview, journey milestones, and live projects.",
+    liveUrl: "https://farhanacom.vercel.app/",
+    image: "/portfolio-farhanacom.png",
+    techStack: ["Next.js", "TypeScript", "Tailwind CSS", "Light/Dark UI"],
+    accentDotClass: "bg-amber-400",
+    overview:
+      "An interactive portfolio experience combining project case studies, a SaaS dashboard preview, timeline milestones, and adaptive light/dark styling.",
+    challenge:
+      "Balancing rich interactive components, light/dark theme support, and smooth mobile responsiveness across multiple sections.",
+    solution:
+      "Implemented modular Next.js and Tailwind CSS components with mobile-first spacing, fixed top navigation, and interactive state previews.",
+    highlights: [
+      "Interactive SaaS dashboard showcase with tab and workspace state switching",
+      "Adaptive Light & Dark mode support with responsive mobile layout",
+      "Featured live work and milestone timeline in one cohesive experience",
+    ],
+  },
+];
+
+const CATEGORIES: ProjectCategory[] = [
+  "All",
+  "Client & Full-Stack",
+  "Portfolios",
 ];
 
 function ProjectScreenshotPreview({
@@ -135,8 +216,15 @@ function ProjectScreenshotPreview({
 }
 
 export default function ProjectsSection() {
+  const [selectedCategory, setSelectedCategory] =
+    useState<ProjectCategory>("All");
   const [selectedProject, setSelectedProject] =
     useState<ProjectCaseStudy | null>(null);
+
+  const visibleProjects =
+    selectedCategory === "All"
+      ? PROJECTS
+      : PROJECTS.filter((project) => project.category === selectedCategory);
 
   return (
     <BookPageSection
@@ -159,14 +247,35 @@ export default function ProjectsSection() {
           </div>
 
           <p className="max-w-md text-sm leading-relaxed text-slate-600 dark:text-slate-400">
-            Explore live websites with full-stack architecture and client-focused
-            UI. Open any case study to inspect how the solution was built.
+            Explore live websites, full-stack builds, and personal portfolio
+            editions. Open any case study to inspect how the solution was built.
           </p>
         </div>
 
+        {/* Category Filter Tabs */}
+        <div className="flex flex-wrap items-center gap-2">
+          {CATEGORIES.map((category) => {
+            const isActive = selectedCategory === category;
+            return (
+              <button
+                key={category}
+                type="button"
+                onClick={() => setSelectedCategory(category)}
+                className={`cursor-pointer rounded-xl px-3.5 py-2 font-mono text-xs font-semibold transition ${
+                  isActive
+                    ? "bg-[#0f25ee] text-white shadow-xs dark:bg-amber-400 dark:text-slate-950"
+                    : "border border-stone-200/90 bg-white text-slate-700 hover:border-amber-400/60 hover:text-slate-950 dark:border-slate-800 dark:bg-[#0B192C]/80 dark:text-slate-300 dark:hover:border-amber-400/40 dark:hover:text-white"
+                }`}
+              >
+                {category}
+              </button>
+            );
+          })}
+        </div>
+
         {/* Project Cards Grid */}
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-          {PROJECTS.map((project) => (
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {visibleProjects.map((project) => (
             <article
               key={project.id}
               className="group flex flex-col justify-between rounded-2xl border border-stone-200/90 bg-white p-5 shadow-[0_10px_28px_rgba(15,23,42,0.08)] transition-all duration-300 hover:-translate-y-1.5 hover:border-amber-400/60 hover:shadow-[0_18px_40px_rgba(15,23,42,0.14)] sm:p-6 dark:border-slate-800 dark:bg-[#0B192C]/90 dark:shadow-[0_14px_34px_rgba(0,0,0,0.45)] dark:hover:border-amber-400/45 dark:hover:shadow-[0_20px_46px_rgba(0,0,0,0.65)]"
@@ -180,7 +289,7 @@ export default function ProjectsSection() {
                   <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-[#0f12e4] dark:text-amber-400">
                     {project.tag}
                   </span>
-                  <span className="inline-flex items-center gap-1.5 font-mono text-[10px] text-emerald-600 dark:text-emerald-400">
+                  <span className="inline-flex shrink-0 items-center gap-1.5 font-mono text-[10px] text-emerald-600 dark:text-emerald-400">
                     <span
                       className={`h-2 w-2 rounded-full ${project.accentDotClass}`}
                     />
@@ -214,7 +323,7 @@ export default function ProjectsSection() {
                 <button
                   type="button"
                   onClick={() => setSelectedProject(project)}
-                  className="inline-flex items-center gap-1.5 rounded-xl border border-amber-500/40 bg-amber-400/15 px-3.5 py-2 font-mono text-xs font-semibold text-amber-900 transition hover:bg-amber-400 hover:text-slate-950 dark:text-amber-300 dark:hover:bg-amber-400 dark:hover:text-slate-950"
+                  className="inline-flex cursor-pointer items-center gap-1.5 rounded-xl border border-amber-500/40 bg-amber-400/15 px-3.5 py-2 font-mono text-xs font-semibold text-amber-900 transition hover:bg-amber-400 hover:text-slate-950 dark:text-amber-300 dark:hover:bg-amber-400 dark:hover:text-slate-950"
                 >
                   <span>Case Study</span>
                   <span>↗</span>
@@ -265,7 +374,7 @@ export default function ProjectsSection() {
                 type="button"
                 onClick={() => setSelectedProject(null)}
                 aria-label="Close case study"
-                className="rounded-lg border border-slate-700 bg-slate-900/90 px-3 py-1.5 font-mono text-xs text-slate-300 transition hover:border-amber-400 hover:text-amber-300"
+                className="cursor-pointer rounded-lg border border-slate-700 bg-slate-900/90 px-3 py-1.5 font-mono text-xs text-slate-300 transition hover:border-amber-400 hover:text-amber-300"
               >
                 ✕ Close
               </button>
@@ -337,7 +446,7 @@ export default function ProjectsSection() {
               <button
                 type="button"
                 onClick={() => setSelectedProject(null)}
-                className="rounded-xl border border-slate-700 px-4 py-2 font-mono text-xs text-slate-300 transition hover:border-slate-500 hover:text-white"
+                className="cursor-pointer rounded-xl border border-slate-700 px-4 py-2 font-mono text-xs text-slate-300 transition hover:border-slate-500 hover:text-white"
               >
                 Back to Portfolio
               </button>

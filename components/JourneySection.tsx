@@ -18,34 +18,34 @@ const milestones: MilestoneItem[] = [
   {
     period: "Feb 2025 - Present",
     type: "Experience",
-    title: "Executive Officer & Full-Stack MERN Developer",
+    title: "Executive Officer",
     org: "UptoTechSyl",
     location: "Sylhet, Bangladesh",
     detail:
-      "Overseeing agency operations, managing full-stack MERN & Next.js projects, building responsive web applications, and handling live deployments.",
-    tags: ["MERN Stack", "Next.js", "Web Development", "Operations"],
+      "Working with the Design & Web Development Team to build responsive web applications, manage client projects, and handle live deployments.",
+    tags: ["MERN Stack", "Next.js", "Web Development", "Design & Dev Team"],
     delayMs: 0,
   },
   {
     period: "August 22 • Batch 13 • ID: A46899",
     type: "Certification",
-    title: "Full-Stack Web Development with JavaScript (MERN)",
-    org: "Ostad Platform (Vetted Assessment)",
+    title: "MERN Stack Training – Ostad",
+    org: "Ostad Platform (ID: A46899)",
     location: "Online / Remote",
     detail:
-      "Completed comprehensive MERN stack training and assessment with 91.7% in Assignments, covering React, Next.js, Node.js, Express, MongoDB, and UI tools.",
+      "Completed MERN stack training covering React, Next.js, Node.js, Express, MongoDB, and UI tools with practical project work.",
     tags: ["React.js", "Next.js", "Node.js", "Express.js", "MongoDB"],
     delayMs: 90,
   },
   {
-    period: "Graduated",
+    period: "2 Semesters Completed",
     type: "Education",
-    title: "Bachelor of Social Science (BSS) Degree",
-    org: "Academic Degree & Higher Studies",
+    title: "BSS – 2 semesters completed, degree incomplete",
+    org: "Bachelor of Social Science",
     location: "Bangladesh",
     detail:
-      "Completed Bachelor of Social Science degree with analytical, research, and communication foundations.",
-    tags: ["Social Science", "Higher Education"],
+      "Completed 2 semesters of Bachelor of Social Science (BSS); degree incomplete.",
+    tags: ["BSS", "2 Semesters Completed", "Degree Incomplete"],
     delayMs: 180,
   },
   {
@@ -162,7 +162,7 @@ export default function JourneySection() {
                 {item.location ? (
                   <span className="font-normal text-[#71717A] dark:text-slate-400">
                     {" "}
-                    • {item.location}
+                    - {item.location}
                   </span>
                 ) : null}
               </p>
